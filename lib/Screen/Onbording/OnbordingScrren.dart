@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import '../LoginScreen/LoginScrren.dart';
+import '../Login_Register Screen/LoginScrren.dart';
 import 'OndordingCount.dart';
 import 'onbording_Model.dart';
 
