@@ -4,13 +4,23 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:untitled19/Bloc/Cubit/MyCubit.dart';
 import 'package:untitled19/Bloc/Cubit/ShopStates.dart';
 
+import '../Widget/Prodect-Screen.dart';
+import '../Widget/catgroisScreen.dart';
+import '../Widget/favoriteScreen.dart';
+import '../Widget/seetingScrren.dart';
+
 class StoreLayout extends StatelessWidget {
-  const StoreLayout({Key? key}) : super(key: key);
+  List<Widget> Screen = [
+    prodectScreen(),
+    CatroisScreen(),
+    favoriteScreen(),
+    SettingScreen(),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ShopCubit()..ProdectBaner(),
+      create: (context) => ShopCubit(),
       child: BlocConsumer<ShopCubit, ShopState>(
         listener: (context, state) {},
         builder: (context, state) {
@@ -41,7 +51,12 @@ class StoreLayout extends StatelessWidget {
                 ),
               ],
             ),
+            body: Screen[ShopCubit.get(context).index],
             bottomNavigationBar: BottomNavigationBar(
+              onTap: (value) {
+                ShopCubit.get(context).ChangeBootonNavBar(value);
+              },
+              currentIndex: ShopCubit.get(context).index,
               items: [
                 BottomNavigationBarItem(
                   icon: Icon(
