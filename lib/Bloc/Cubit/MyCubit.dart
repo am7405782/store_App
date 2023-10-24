@@ -5,6 +5,8 @@ import 'package:untitled19/DioHalder/DioHalder.dart';
 import '../../Component/Constatnt/endPoint.dart';
 import '../../Model/Catroies.dart';
 import '../../Model/HomeModel.dart';
+import '../../Model/favoritesModel.dart';
+import '../../Screen/Widget/favoriteScreen.dart';
 
 class ShopCubit extends Cubit<ShopState> {
   ShopCubit() : super(initialState());
@@ -19,6 +21,7 @@ class ShopCubit extends Cubit<ShopState> {
   }
 
   HomeModel? homeModel;
+  Map<int?, bool?> favorites = {};
 
   void ProdectBaner() {
     emit(lodingHomeScreen());
@@ -29,7 +32,14 @@ class ShopCubit extends Cubit<ShopState> {
     )
         .then((value) {
       homeModel = HomeModel.fromJson(value.data);
-      print(homeModel!.data!.banners![0]);
+      print(homeModel?.data?.banners[0].image);
+      homeModel?.data?.products.forEach((element) {
+        favorites.addAll({
+          element.id: element.inFavorites,
+        });
+      });
+      print(favorites.toString());
+
       emit(scafullHomeScreen());
     }).catchError((e) {
       print(e.toString());
@@ -54,5 +64,46 @@ class ShopCubit extends Cubit<ShopState> {
       print(e.toString());
       emit(erorCategoriesScreen());
     });
+  }
+
+  FavoritesModel? favoriteModel;
+
+  void GetFavoriteScreen() {
+    emit(LodingfavoritesScreen());
+    dioHalder
+        .getData(
+      url: Favorites,
+      token: token,
+    )
+        .then((value) {
+      favoriteModel = FavoritesModel.fromJson(value.data);
+      print(favoriteModel!.data!.data![0].product);
+      emit(scafullfavoritesScreen());
+    }).catchError((e) {
+      print(e.toString());
+      emit(erorfavoritesScreen());
+    });
+  }
+
+  void AddOrDeleteFavorite(int? Prodectid) {
+    dioHalder.postData(
+      data: {
+        'product_id': Prodectid,
+      },
+      url: Favorites,
+      token: token,
+    ).then((value) {
+      print(value.data);
+      emit(ShopChangeFavoritesState());
+    }).catchError((e) {
+      print(e.toString());
+      emit(ShopChangeFavoriteserrorState());
+    });
+    if (favorites.containsKey(Prodectid)) {
+      final currentStatus = favorites[Prodectid];
+      favorites[Prodectid] = !(currentStatus ?? false);
+      favoriteScreen();
+      emit(FavoritesUpdatedState());
+    }
   }
 }

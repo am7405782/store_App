@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../Bloc/Cubit/MyCubit.dart';
 import '../../Bloc/Cubit/ShopStates.dart';
+import '../../Component/CustomWidget/prodectItems.dart';
 import '../../Model/Catroies.dart';
 import '../../Model/HomeModel.dart';
 import 'Widget.dart';
@@ -27,7 +28,8 @@ class prodectScreen extends StatelessWidget {
                 ShopCubit.get(context).categoriesModel != null,
             builder: (context) => ProdectItemsScreen(
                 ShopCubit.get(context).homeModel!,
-                ShopCubit.get(context).categoriesModel!),
+                ShopCubit.get(context).categoriesModel!,
+                context),
             fallback: (context) => Center(child: CircularProgressIndicator()),
           );
         },
@@ -36,7 +38,7 @@ class prodectScreen extends StatelessWidget {
   }
 }
 
-Widget ProdectItemsScreen(HomeModel model, CategoriesModel catrois) =>
+Widget ProdectItemsScreen(HomeModel model, CategoriesModel catrois, context) =>
     SingleChildScrollView(
       physics: BouncingScrollPhysics(),
       child: Column(
@@ -114,8 +116,10 @@ Widget ProdectItemsScreen(HomeModel model, CategoriesModel catrois) =>
                     crossAxisCount: 2,
                     physics: NeverScrollableScrollPhysics(),
                     childAspectRatio: 1 / 0.7,
-                    children: List.generate(model.data!.products.length,
-                        (index) => prodectItems(model.data!.products[index])),
+                    children: List.generate(
+                        model.data!.products.length,
+                        (index) =>
+                            prodectItems(model.data!.products[index], context)),
                   ),
                 ),
               ],
@@ -125,88 +129,3 @@ Widget ProdectItemsScreen(HomeModel model, CategoriesModel catrois) =>
       ),
     );
 
-Widget prodectItems(ProductModel model) => Container(
-      clipBehavior: Clip.none,
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          Container(
-            width: 220,
-            child: Card(
-              elevation: 10,
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  top: 20,
-                  right: 8,
-                  left: 8,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "${model.name}",
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 14,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          "${model.price}" r"$",
-                          style: TextStyle(
-                            color: Colors.black,
-                          ),
-                        ),
-                        Spacer(),
-                        IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.favorite,
-                              color: Colors.red,
-                              size: 30,
-                            )),
-                      ],
-                    ),
-                    Text(
-                      "${model.oldPrice}" r"$",
-                      style: TextStyle(
-                        decoration: TextDecoration.lineThrough,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            top: -120,
-            right: 0,
-            child: Image(
-              image: NetworkImage(
-                "${model.image}",
-              ),
-              height: 100,
-              width: 150,
-            ),
-          ),
-          if (model.discount != 0)
-            Positioned(
-              left: 10,
-              child: Container(
-                color: Colors.red,
-                child: Text(
-                  "DisCount",
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            ),
-        ],
-      ),
-    );

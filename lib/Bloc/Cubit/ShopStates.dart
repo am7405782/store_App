@@ -15,3 +15,15 @@ class scafullCategoriesScreen extends ShopState {}
 class erorCategoriesScreen extends ShopState {}
 
 class LodingCategoriesScreen extends ShopState {}
+
+class scafullfavoritesScreen extends ShopState {}
+
+class erorfavoritesScreen extends ShopState {}
+
+class LodingfavoritesScreen extends ShopState {}
+
+class ShopChangeFavoritesState extends ShopState {}
+
+class ShopChangeFavoriteserrorState extends ShopState {}
+
+class FavoritesUpdatedState extends ShopState {}
