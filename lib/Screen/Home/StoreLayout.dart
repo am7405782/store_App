@@ -7,6 +7,7 @@ import 'package:untitled19/Bloc/Cubit/ShopStates.dart';
 import '../Widget/Prodect-Screen.dart';
 import '../Widget/catgroisScreen.dart';
 import '../Widget/favoriteScreen.dart';
+import '../Widget/searchScreen.dart';
 import '../Widget/seetingScrren.dart';
 
 class StoreLayout extends StatelessWidget {
@@ -43,10 +44,19 @@ class StoreLayout extends StatelessWidget {
                       color: Colors.grey.withOpacity(0.05),
                       borderRadius: BorderRadius.circular(50)),
                   width: 50,
-                  child: Icon(
-                    Icons.search,
-                    color: Colors.black,
-                    size: 28,
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => searchScreen(),
+                          ));
+                    },
+                    icon: Icon(
+                      Icons.search,
+                      color: Colors.black,
+                      size: 28,
+                    ),
                   ),
                 ),
               ],

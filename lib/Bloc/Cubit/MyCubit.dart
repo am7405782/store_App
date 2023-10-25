@@ -5,6 +5,7 @@ import 'package:untitled19/DioHalder/DioHalder.dart';
 import '../../Component/Constatnt/endPoint.dart';
 import '../../Model/Catroies.dart';
 import '../../Model/HomeModel.dart';
+import '../../Model/SerachModel.dart';
 import '../../Model/favoritesModel.dart';
 import '../../Screen/Widget/favoriteScreen.dart';
 
@@ -105,5 +106,26 @@ class ShopCubit extends Cubit<ShopState> {
       favoriteScreen();
       emit(FavoritesUpdatedState());
     }
+  }
+
+  SearchModel? searchModel;
+
+  void SearchScreen(String text) {
+    emit(lodingSearchScreen());
+    dioHalder
+        .postData(
+            url: PRDECTSEARCH,
+            data: {
+              "text": text,
+            },
+            token: token)
+        .then((value) {
+      searchModel = SearchModel.fromJson(value.data);
+      print(text);
+      emit(scafullSearchScreen());
+    }).catchError((e) {
+      print(e.toString());
+      emit(erorSearchScreen());
+    });
   }
 }

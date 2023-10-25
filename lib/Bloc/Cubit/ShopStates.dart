@@ -27,3 +27,9 @@ class ShopChangeFavoritesState extends ShopState {}
 class ShopChangeFavoriteserrorState extends ShopState {}
 
 class FavoritesUpdatedState extends ShopState {}
+
+class lodingSearchScreen extends ShopState {}
+
+class scafullSearchScreen extends ShopState {}
+
+class erorSearchScreen extends ShopState {}
